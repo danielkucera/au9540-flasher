@@ -71,12 +71,13 @@ def main():
 	# write serial
         if len(sys.argv) == 3:
            serial = sys.argv[2]
-	   addr = 0x5e 
-           wr_cmd = [ 0x40, 0xc2, addr, 0x00, 0x00, 0x03, 2*len(serial), 0x00 ]
-           data = [ ]
+	   addr = 0x5d
+	   slen = len(serial)
+           wr_cmd = [ 0x40, 0xc2, addr, 0x00, 0x00, 0x03, 2*(slen+1), 0x00 ]
+           data = [ (slen+1)*2, 3 ]
            for ch in serial:
-               data.append(0)
                data.append(ord(ch))
+               data.append(0)
 
            wr_cmd.extend(data)
            print "to_write", np.array(wr_cmd)
